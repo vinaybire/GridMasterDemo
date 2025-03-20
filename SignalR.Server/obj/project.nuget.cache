@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wojNp8BsGH0=",
+  "dgSpecHash": "6e9Rrg8jHoY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\vinay\\Desktop\\Game\\SignalR.Server\\SignalR.Server.csproj",
+  "projectFilePath": "C:\\Users\\vinay\\Desktop\\githubGame\\SignalR.Server\\SignalR.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vinay\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\vinay\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
@@ -54,5 +54,4 @@
     "C:\\Users\\vinay\\.nuget\\packages\\system.threading.channels\\4.5.0\\system.threading.channels.4.5.0.nupkg.sha512",
     "C:\\Users\\vinay\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
   ],
-  "logs": []
-}
+  "logs":

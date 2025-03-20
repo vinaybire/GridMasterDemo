@@ -10,6 +10,7 @@
     <h1>SignalR Client</h1>
     <input type="text" id="userName" placeholder="Username">
     <input type="text" id="roomName" placeholder="Room">
+    <input type="text" id="teamName" placeholder="Team Name"> <!-- ✅ New input for Team Name -->
     <button id="joinRoom">Join Room</button>
 </div>
 
@@ -27,7 +28,7 @@
 <script>
     const connection = new signalR.HubConnectionBuilder()
         .withAutomaticReconnect()
-        .withUrl("http://localhost:5008/advanced")
+        .withUrl("http://localhost:5008/gameHub")
         .build();
 
     connection.start().catch(function (err) {
@@ -37,13 +38,15 @@
     document.getElementById("joinRoom").addEventListener("click", function () {
         const roomName = document.getElementById("roomName").value;
         const userName = document.getElementById("userName").value;
+        const teamName = document.getElementById("teamName").value; // ✅ Get team name
 
-        if (!userName || !roomName) {
-            alert("Please enter both username and room name.");
+        if (!userName || !roomName || !teamName) {
+            alert("Please enter username, room name, and team name.");
             return;
         }
 
-        connection.invoke("JoinRoom", userName, roomName)
+        // ✅ Pass teamName to backend
+        connection.invoke("JoinRoom", userName, roomName, teamName)
             .catch(function (err) {
                 console.error(err.toString());
             });
@@ -85,43 +88,42 @@
 
     connection.on("MoveAcknowledged", function (msg) {
         const messages = document.getElementById("messages");
-        console.log(msg+"cc");
+        console.log(msg + "cc");
         messages.innerHTML += `<p style="color:green">${msg}</p>`;
     });
 
-    // ✅ Create 10x10 Grid
     // ✅ Create 10x10 Grid with (x, y) positions as text
-function createGrid(userName) {
-    const gridSize = 10;
-    const gridContainer = document.getElementById("gameGrid");
-    gridContainer.innerHTML = ""; // Clear any previous grid
+    function createGrid(userName) {
+        const gridSize = 10;
+        const gridContainer = document.getElementById("gameGrid");
+        gridContainer.innerHTML = ""; // Clear any previous grid
 
-    for (let x = 0; x < gridSize; x++) {
-        for (let y = 0; y < gridSize; y++) {
-            const cell = document.createElement("div");
-            cell.style.width = "40px";
-            cell.style.height = "40px";
-            cell.style.border = "1px solid black";
-            cell.style.display = "flex";
-            cell.style.alignItems = "center";
-            cell.style.justifyContent = "center";
-            cell.style.cursor = "pointer";
-            cell.dataset.x = x;
-            cell.dataset.y = y;
+        for (let x = 0; x < gridSize; x++) {
+            for (let y = 0; y < gridSize; y++) {
+                
+                const cell = document.createElement("div");
+                cell.style.width = "40px";
+                cell.style.height = "40px";
+                cell.style.border = "1px solid black";
+                cell.style.display = "flex";
+                cell.style.alignItems = "center";
+                cell.style.justifyContent = "center";
+                cell.style.cursor = "pointer";
+                cell.dataset.x = x;
+                cell.dataset.y = y;
 
-            // ✅ Display (x, y) inside each cell
-            cell.innerText = `(${x}, ${y})`;
+                // ✅ Display (x, y) inside each cell
+                cell.innerText = `(${x}, ${y})`;
 
-            // Handle click on the grid
-            cell.addEventListener("click", function () {
-                move(userName, x, y);
-            });
+                // Handle click on the grid
+                cell.addEventListener("click", function () {
+                    move(userName, x, y);
+                });
 
-            gridContainer.appendChild(cell);
+                gridContainer.appendChild(cell);
+            }
         }
     }
-}
-
 
     // ✅ Call Move function with Username and X, Y
     function move(userName, x, y) {

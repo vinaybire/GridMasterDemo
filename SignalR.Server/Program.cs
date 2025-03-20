@@ -10,6 +10,6 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 app.UseCors("AllowAnyOrigin");
-app.MapHub<AdvancedChatHub>("/advanced");
+app.MapHub<GameHub>("/gameHub");
 app.Run();
 
