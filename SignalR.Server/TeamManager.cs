@@ -3,17 +3,19 @@ using System.Collections.Concurrent;
 class TeamManager
 {
     public static ConcurrentDictionary<string, Team> Teams = new();
+     public  int TotalPlayers=0;
 
-    public void managePlayer(string userName, string teamName, string connectionId)
+    public void managePlayer(string userName, string teamName, string connectionId, string roomName)
     {
         if (!Teams.ContainsKey(teamName))
         {
-            Teams.TryAdd(teamName, new Team(2));
+            Teams.TryAdd(teamName, new Team(3));
         }
 
-        if (Teams[teamName].AvilabePlayers < 2)
+        if (Teams[teamName].AvilabePlayers < 3)
         {
-            User user = new User(userName, connectionId, teamName, Teams[teamName].AvilabePlayers);
+            TotalPlayers++;
+            User user = new User(userName, connectionId, teamName, Teams[teamName].AvilabePlayers , roomName);
             Teams[teamName].AvilabePlayers++;
             Teams[teamName].AddPlayer(connectionId, user);
         }

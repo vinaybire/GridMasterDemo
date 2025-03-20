@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.VisualBasic;
@@ -17,26 +18,30 @@ public class GameHub : Hub
 {
     private static TeamManager teamManager = new();
     private HintManager hintManager = new();
-    private static ConcurrentDictionary<string, User> _users = new();
+    private static bool TimeOver = false;
+    
+
+    // private static ConcurrentDictionary<string, User> _users = new();
     private static ConcurrentDictionary<string, string> idTeam = new();
-    public int numberOfUser = _users.Count();
-    public override async Task OnDisconnectedAsync(Exception? exception)
-    {
-        if (_users.TryRemove(Context.ConnectionId, out var user))
-        {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Room);
-            await Clients.Group(user.Room).SendAsync("UserLeft", user.Name);
-        }
-    }
+    // public int numberOfUser = _users.Count();
+    // public override async Task OnDisconnectedAsync(Exception? exception)
+    // {
+    //     if (_users.TryRemove(Context.ConnectionId, out var user))
+    //     {
+    //         await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Room);
+    //         await Clients.Group(user.Room).SendAsync("UserLeft", user.Name);
+    //     }
+    // }
 
     public async Task JoinRoom(string userName, string roomName, string teamName)
     {
-        Console.WriteLine(numberOfUser);
+        // Console.WriteLine(numberOfUser);
         //_users.TryAdd(Context.ConnectionId, new User(userName, Context.ConnectionId, roomName));
         //User u1 = new User();
 
 
-        teamManager.managePlayer(userName, teamName, Context.ConnectionId);
+
+        teamManager.managePlayer(userName, teamName, Context.ConnectionId, roomName);
         TeamManager.Teams.TryGetValue(teamName, out var team);
 
         //Console.WriteLine(team.TeamPlayers[0].Name);
@@ -44,7 +49,45 @@ public class GameHub : Hub
         await SendMessageToTeam(roomName, teamName, userName + " joined room");
         await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
         // await Clients.Group(roomName).SendAsync("UserJoined", userName);
+
+        Console.WriteLine(teamManager.TotalPlayers);
     }
+
+
+     private static Dictionary<string, int> roomTimers = new();
+
+public async Task StartTimer(string roomName)
+
+{
+    if(teamManager.TotalPlayers==2)
+    
+    {
+        if (roomTimers.ContainsKey(roomName)) return; 
+
+    roomTimers[roomName] = 60; 
+
+    while (roomTimers[roomName] >=0)
+    {
+        if(roomTimers[roomName] == 0) {
+            TimeOver=true;
+            Console.WriteLine(TimeOver);
+        }
+        //Console.WriteLine(roomTimers[roomName]);
+
+        int minutes = roomTimers[roomName] / 60;
+        int seconds = roomTimers[roomName] % 60;
+        string timeFormatted = $"{minutes:D2}:{seconds:D2}";
+        await Clients.Group(roomName).SendAsync("UpdateTimer", timeFormatted);
+        await Task.Delay(1000); 
+        roomTimers[roomName]--;    
+        
+    }
+    await Clients.Group(roomName).SendAsync("TimerEnded", "Time is up!");
+    roomTimers.Remove(roomName);
+}
+
+    }
+
 
     public async Task SendMessageToTeam(string roomName, string teamName, string content)
     {
@@ -59,11 +102,11 @@ public class GameHub : Hub
 
     public async Task SendMessageToRoom(string roomName, string content)
     {
-        if (_users.TryGetValue(Context.ConnectionId, out var user))
-        {
-            var message = new Message(user.Name, content);
-            await Clients.Group(roomName).SendAsync("ReceiveMessage", message);
-        }
+        // if (_users.TryGetValue(Context.ConnectionId, out var user))
+        // {
+        //     var message = new Message(user.Name, content);
+        //     await Clients.Group(roomName).SendAsync("ReceiveMessage", message);
+        // }
     }
 
     public async Task Move(string userName, int x, int y)
@@ -77,10 +120,18 @@ public class GameHub : Hub
 
         User player = team.TeamPlayers[Context.ConnectionId];
 
+            string roomName = player.RoomName;
+            string moveMessage = "";
+            if(TimeOver==true) {
+                moveMessage = $"{userName}  Time is over ";
+                await Clients.Group(roomName).SendAsync("MoveAcknowledged", moveMessage);
+            }
+
+
         if (player.Chance > 0)
         {
             /* */
-            string moveMessage;
+            
 
             if (hintManager.TryGetHint(player.Id, player.TotalHintFound, out var value))
                 {
@@ -103,6 +154,7 @@ public class GameHub : Hub
                     //await Clients.Group(roomName).SendAsync("MoveAcknowledged", moveMessage);
 
                 }
+
             else
             {
                 player.Chance--;
@@ -117,7 +169,11 @@ public class GameHub : Hub
                 await SendMessageToTeam("",teamName,moveMessage);
                 //await Clients.Client(players.ConnectionId).SendAsync("UserJoined",content);
             }
-            
+        }
+        else{
+
+                moveMessage = $"{userName}  has no chance";
+                await Clients.Client(Context.ConnectionId).SendAsync("MoveAcknowledged", moveMessage);
         }
 
 

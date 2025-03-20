@@ -6,9 +6,9 @@ public class User
     public string TeamName { get; set; }
     public int Chance { get; set; }
     public int TotalHintFound { get; set; }
-    public string Room { get; internal set; }
+    public string RoomName { get; internal set; }
 
-    public User(string name, string connectionId, string teamName,int id)
+    public User(string name, string connectionId, string teamName,int id, string roomName)
     {
         Name = name;
         ConnectionId = connectionId;
@@ -16,5 +16,6 @@ public class User
         Id=id;
         Chance = 2;
         TotalHintFound = 0;
+        RoomName = roomName;
     }
 }

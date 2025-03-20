@@ -21,6 +21,13 @@
         <input type="text" id="messageInput" placeholder="Message" autocomplete="off">
     </div>
     <br>
+    <div id="timespace" style="display:none;">
+        <h2>Timer</h2>
+        <div id="time" style="border:1px solid black;  height:40px;width: 90px ; position: relative;top: 10px;right: 0">
+            
+        </div>
+    </div><br>
+
     <h3>Game Grid</h3>
     <div id="gameGrid" style="display:grid; grid-template-columns: repeat(10, 40px); gap: 5px;"></div>
 </div>
@@ -53,7 +60,15 @@
 
         document.getElementById("homeScreen").style.display = "none";
         document.getElementById("chatScreen").style.display = "block";
+        document.getElementById("timespace").style.display = "inline";
+
         document.getElementById("roomTitle").innerHTML = `Room: ${roomName}`;
+
+        connection.invoke("StartTimer", roomName)
+            .catch(function (err) {
+                console.error(err.toString());
+            });
+
 
         createGrid(userName); // Create grid after joining the room
         document.getElementById("messageInput").focus();
@@ -91,6 +106,16 @@
         console.log(msg + "cc");
         messages.innerHTML += `<p style="color:green">${msg}</p>`;
     });
+
+    connection.on("UpdateTimer", function (timeLeft) {
+    document.getElementById("time").innerText = timeLeft;
+});
+
+connection.on("TimerEnded", function (msg) {
+    document.getElementById("time").innerText = msg;
+});
+
+
 
     // ✅ Create 10x10 Grid with (x, y) positions as text
     function createGrid(userName) {
