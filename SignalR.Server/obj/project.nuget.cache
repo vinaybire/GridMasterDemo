@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KBFWFm5icRw=",
+  "dgSpecHash": "yF2QQ6pbn/I=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj",
+  "projectFilePath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.Server\\SignalR.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gargi\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\gargi\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",

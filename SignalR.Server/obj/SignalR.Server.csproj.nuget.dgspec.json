@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj": {}
+    "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.Server\\SignalR.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj": {
+    "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.Server\\SignalR.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj",
+        "projectUniqueName": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.Server\\SignalR.Server.csproj",
         "projectName": "SignalR.Server",
-        "projectPath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj",
+        "projectPath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.Server\\SignalR.Server.csproj",
         "packagesPath": "C:\\Users\\gargi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\obj\\",
+        "outputPath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

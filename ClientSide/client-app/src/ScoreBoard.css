@@ -1,0 +1,23 @@
+.scoreboard {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    min-width: 180px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+    .scoreboard h3 {
+        margin: 0;
+        font-size: 18px;
+        text-align: center;
+    }
+
+.team-score {
+    margin-top: 5px;
+    font-size: 14px;
+}
