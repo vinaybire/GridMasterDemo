@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./ScoreBoard.css";
+import { SignalRProvider } from "./signalRContext";
 
 const ScoreBoard = () => {
     const [scores, setScores] = useState([]);
+    // const connection = useContext(SignalRContext);
+    
 
     useEffect(() => {
         const fetchScores = async () => {
@@ -16,17 +19,17 @@ const ScoreBoard = () => {
         };
 
         fetchScores();
-        const interval = setInterval(fetchScores, 5000); // Auto-update every 5 seconds
+        const interval = setInterval(fetchScores, 5000);
 
-        return () => clearInterval(interval); // Cleanup interval on unmount
+        return () => clearInterval(interval); 
     }, []);
 
     return (
-        <div style={styles.container}>
-            <h3 style={styles.title}>🏆 Scoreboard</h3>
-            <ul style={styles.list}>
+        <div className="container">
+            <h3 className="title">🏆 Scoreboard</h3>
+            <ul className="list">
                 {scores.map((player) => (
-                    <li key={player.id} style={styles.item}>
+                    <li key={player.id} className="item">
                         {player.name}: <strong>{player.score}</strong>
                     </li>
                 ))}
@@ -35,40 +38,9 @@ const ScoreBoard = () => {
     );
 };
 
-const styles = {
-    container: {
-        position: "absolute",
-        top: "83px",
-        left: "40px",
-        background: "rgba(0, 0, 0, 0.7)",
-        color: "white",
-        padding: "10px 20px",
-        borderRadius: "10px",
-        width: "400px",
-        height:"300px",
 
-    },
-    title: {
-        margin: "0",
-        paddingBottom: "5px",
-        textAlign: "center",
-        fontSize: "25px",
-        borderBottom: "2px solid white",
-    },
-    list: {
-        listStyle: "none",
-        padding: "20px",
-        margin: "10px 0 0",
-        fontSize: "25px",
+    
 
-    },
-    item: {
-        fontSize: "14px",
-        margin: "5px 0",
-        fontSize: "25px",
-        textAlign: "center",
-    },
-};
 
 
 
