@@ -14,7 +14,7 @@
     <button id="joinRoom">Join Room</button>
 </div>
 
-<div id="chatScreen" style="display:none">
+<div id="chatScreen" style="display:none;">
     <h1 id="roomTitle"></h1>
     <div id="messages" style="border:1px solid black; padding:10px; height:200px; overflow-y:scroll;"></div>
     <div>
@@ -23,13 +23,22 @@
     <br>
     <div id="timespace" style="display:none;">
         <h2>Timer</h2>
-        <div id="time" style="border:1px solid black;  height:40px;width: 90px ; position: relative;top: 10px;right: 0">
-            
+        <div id="time" style="border:1px solid black; height:40px; width: 90px; position: relative; top: 10px; right: 0;">
         </div>
     </div><br>
 
     <h3>Game Grid</h3>
     <div id="gameGrid" style="display:grid; grid-template-columns: repeat(10, 40px); gap: 5px;"></div>
+</div>
+
+<div id="resultScreen" style="display:none; text-align: center; margin-top: 20px;">
+    <h2>Game Over!</h2>
+    <div id="result" style="border:1px solid black; padding:10px; width: 300px; margin: 0 auto;">
+        <p><strong>Team 1 Score:</strong> <span id="team1Score">0</span></p>
+        <p><strong>Team 2 Score:</strong> <span id="team2Score">0</span></p>
+        <h3 id="winnerElement"></h3>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
 </div>
 
 <script>
@@ -45,7 +54,7 @@
     document.getElementById("joinRoom").addEventListener("click", function () {
         const roomName = document.getElementById("roomName").value;
         const userName = document.getElementById("userName").value;
-        const teamName = document.getElementById("teamName").value; 
+        const teamName = document.getElementById("teamName").value;
 
         if (!userName || !roomName || !teamName) {
             alert("Please enter username, room name, and team name.");
@@ -68,8 +77,7 @@
                 console.error(err.toString());
             });
 
-
-        createGrid(userName); 
+        createGrid(userName);
         document.getElementById("messageInput").focus();
     });
 
@@ -102,28 +110,44 @@
 
     connection.on("MoveAcknowledged", function (msg) {
         const messages = document.getElementById("messages");
-        console.log(msg + "cc");
         messages.innerHTML += `<p style="color:green">${msg}</p>`;
     });
 
     connection.on("UpdateTimer", function (timeLeft) {
-    document.getElementById("time").innerText = timeLeft;
-});
+        document.getElementById("time").innerText = timeLeft;
+    });
 
-connection.on("TimerEnded", function (msg) {
-    document.getElementById("time").innerText = msg;
-});
+    // Show result page when timer ends
+    connection.on("TimerEnded", function (msg) {
+        document.getElementById("time").innerText = msg;
+        connection.invoke("GetGameResults")
+            .catch(function (err) {
+                console.error(err.toString());
+            });
+    });
 
+    // Display game results
+    connection.on("GameResults", function (result) {
+    console.log("GameResults received:", result);
+    console.log("Scores:", result.scores);
+    console.log("Winner:", result.winner);
+
+    document.getElementById("chatScreen").style.display = "none";
+    document.getElementById("resultScreen").style.display = "block";
+
+    document.getElementById("team1Score").innerText = result.scores[0];
+    document.getElementById("team2Score").innerText = result.Scores[1];
+    document.getElementById("winnerElement").innerText = "vinay";
+});
 
 
     function createGrid(userName) {
         const gridSize = 10;
         const gridContainer = document.getElementById("gameGrid");
-        gridContainer.innerHTML = ""; // Clear any previous grid
+        gridContainer.innerHTML = ""; // Clear previous grid
 
         for (let x = 0; x < gridSize; x++) {
             for (let y = 0; y < gridSize; y++) {
-                
                 const cell = document.createElement("div");
                 cell.style.width = "40px";
                 cell.style.height = "40px";
@@ -155,6 +179,10 @@ connection.on("TimerEnded", function (msg) {
             .catch(function (err) {
                 console.error("Error sending move:", err.toString());
             });
+    }
+
+    function restartGame() {
+        location.reload(); // Reload the page to restart the game
     }
 </script>
 </body>

@@ -2038,23 +2038,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gargi\\.nuget\\packages\\": {},
+    "C:\\Users\\vinay\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj",
+      "projectUniqueName": "C:\\Users\\vinay\\Desktop\\githubGame\\SignalR.Server\\SignalR.Server.csproj",
       "projectName": "SignalR.Server",
-      "projectPath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\SignalR.Server.csproj",
-      "packagesPath": "C:\\Users\\gargi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gargi\\Documents\\GridMasterDemo\\SignalR.server\\obj\\",
+      "projectPath": "C:\\Users\\vinay\\Desktop\\githubGame\\SignalR.Server\\SignalR.Server.csproj",
+      "packagesPath": "C:\\Users\\vinay\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\vinay\\Desktop\\githubGame\\SignalR.Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\gargi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\vinay\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2063,7 +2063,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

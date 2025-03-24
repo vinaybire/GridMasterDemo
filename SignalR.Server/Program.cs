@@ -4,7 +4,8 @@ builder.Services.AddCors(o =>
     o.AddPolicy("AllowAnyOrigin", p => p
         .WithOrigins("null") // Origin of an html file opened in a browser
         .AllowAnyHeader()
-        .AllowCredentials()); 
+        .AllowCredentials()
+        .WithOrigins("http://localhost:3002")); 
 });
 builder.Services.AddSignalR();
 
