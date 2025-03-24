@@ -14,7 +14,7 @@ const Grid = () => {
     const [hintMessage, setHintMessage] = useState("");
 
     const data = Array.from({ length: totalCells }, (_, index) => {
-        const img = staticElements.get(index) || "https://i.pinimg.com/736x/21/b6/f6/21b6f6ce8caadcdc0c243ebe8a0fccce.jpg"; // Default image
+        const img = staticElements.get(index) || "https://i.pinimg.com/736x/21/b6/f6/21b6f6ce8caadcdc0c243ebe8a0fccce.jpg"; 
 
         return {
             id: index + 1,
@@ -46,6 +46,7 @@ const Grid = () => {
                     
                 </div>
             )}
+            
 
         </div>
     );

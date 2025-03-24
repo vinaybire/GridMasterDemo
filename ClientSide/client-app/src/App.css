@@ -1,3 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("https://thumbs.dreamstime.com/b/pirates-map-background-old-treasure-map-compass-aged-72840984.jpg") center/cover no-repeat;
+}
+
 .App {
   text-align: center;
 }

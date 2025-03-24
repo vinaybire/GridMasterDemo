@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import "./cell.css";
+import * as signalR from "@microsoft/signalr";
+import userName from "./joinRoom"
+// import { SignalRContext } from "./signalRContext";
+import { connection } from "./signalRContext";
 
 const Cell = ({ item ,setHintMessage}) => {
     const [flipped, setFlipped] = useState(false);
-
+    const userName = localStorage.getItem("userName");
     
         const handleClick = async () => {
             if (item.static) return; 
@@ -17,29 +21,18 @@ const Cell = ({ item ,setHintMessage}) => {
 
             console.log(`Sending Click Coordinates - X: ${X}, Y: ${Y}`);
 
-            try {
-                const response = await fetch("http://localhost:5024/api/game/click", { 
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ X, Y, PlayerId }), 
-                });
 
-                const data = await response.json();
-                if (data.status === "success") {
-                    console.log(data.type);
-                    if (data.type === "treasure") {
-                        alert("🎉 You found a treasure!");
-                    } else if (data.type === "hint") {
-                        setHintMessage(`💡 Hint: ${data.message}`);
-                    }
-                } else {
-                    alert("❌ Wrong move!");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
+            connection.invoke("Move", userName, X, Y)
+            .then(() => {
+                console.log(`Move sent successfully!`);
+            })
+            .catch(function (err) {
+                console.error("Error sending move:", err.toString());
+                console.error(userName);
+            });
+
+        
+        
 
     };
 

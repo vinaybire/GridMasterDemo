@@ -19,9 +19,9 @@
 
 
 .hint-box {
-    display: flex; /* Arrange items in a row */
-    justify-content: center; /* Center items horizontally */
-    gap: 30px; /* Add space between hints */
+    display: flex; 
+    justify-content: center; 
+    gap: 30px; 
     margin-top: 10px;
     padding: 10px;
     background-color: rgb(40, 14, 2, 0.75);
