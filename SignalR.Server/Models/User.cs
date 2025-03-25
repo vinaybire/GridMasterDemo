@@ -1,21 +1,25 @@
+namespace YourProject.Models;
 public class User
 {
-    public string Name { get; set; }
-    public int Id { get; set; }
-    public string ConnectionId {get;set;}
-    public string TeamName { get; set; }
-    public int Chance { get; set; }
-    public int TotalHintFound { get; set; }
-    public string RoomName { get; internal set; }
+    public string Name { get; }
+    public string ConnectionId { get; }
+    public string TeamName { get; }
+    public int Id { get; }
+    public int Chance { get; private set; }
+    public int TotalHintsFound { get; private set; }
+    public string RoomName { get; }
 
-    public User(string name, string connectionId, string teamName,int id, string roomName)
+    public User(string name, string connectionId, string teamName, int id, string roomName)
     {
         Name = name;
         ConnectionId = connectionId;
         TeamName = teamName;
-        Id=id;
-        Chance = 2;
-        TotalHintFound = 0;
+        Id = id;
         RoomName = roomName;
+        Chance = GameConstants.InitialChances;
     }
+
+    public void ResetChances() => Chance = GameConstants.InitialChances;
+    public void DecrementChance() => Chance--;
+    public void IncrementHintsFound() => TotalHintsFound++;
 }

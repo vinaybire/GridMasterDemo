@@ -4,10 +4,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.VisualBasic;
 
-
-
-
-
 public record Message(string User, string Text);
 
 
@@ -32,7 +28,7 @@ public class GameHub : Hub
         TeamManager.Teams.TryGetValue(teamName, out var team);
 
         idTeam[Context.ConnectionId] = teamName;
-        await SendMessageToTeam(roomName, teamName, userName + " joined room");
+        await SendMessageToTeam(0, teamName, userName + " joined room");
         await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
 
         Console.WriteLine(teamManager.TotalPlayers);
@@ -41,49 +37,49 @@ public class GameHub : Hub
 
     private static Dictionary<string, int> roomTimers = new();
 
-    public async Task StartTimer(string roomName)
+    // public async Task StartTimer(string roomName)
 
-    {
-        if (teamManager.TotalPlayers == 2)
+    // {
+    //     if (teamManager.TotalPlayers == 2)
 
-        {
-            if (roomTimers.ContainsKey(roomName)) return;
+    //     {
+    //         if (roomTimers.ContainsKey(roomName)) return;
 
-            roomTimers[roomName] = 60;
+    //         roomTimers[roomName] = 60;
 
-            while (roomTimers[roomName] >= 0)
-            {
-                if (roomTimers[roomName] == 0)
-                {
-                    TimeOver = true;
-                    Console.WriteLine(TimeOver);
-                }
+    //         while (roomTimers[roomName] >= 0)
+    //         {
+    //             if (roomTimers[roomName] == 0)
+    //             {
+    //                 TimeOver = true;
+    //                 Console.WriteLine(TimeOver);
+    //             }
 
-                //Console.WriteLine(roomTimers[roomName]);
+    //             //Console.WriteLine(roomTimers[roomName]);
 
-                int minutes = roomTimers[roomName] / 60;
-                int seconds = roomTimers[roomName] % 60;
-                string timeFormatted = $"{minutes:D2}:{seconds:D2}";
-                await Clients.Group(roomName).SendAsync("UpdateTimer", timeFormatted);
-                await Task.Delay(1000);
-                roomTimers[roomName]--;
+    //             int minutes = roomTimers[roomName] / 60;
+    //             int seconds = roomTimers[roomName] % 60;
+    //             string timeFormatted = $"{minutes:D2}:{seconds:D2}";
+    //             await Clients.Group(roomName).SendAsync("UpdateTimer", timeFormatted);
+    //             await Task.Delay(1000);
+    //             roomTimers[roomName]--;
 
-            }
-            await Clients.Group(roomName).SendAsync("TimerEnded", "Time is up!");
-            roomTimers.Remove(roomName);
-        }
+    //         }
+    //         await Clients.Group(roomName).SendAsync("TimerEnded", "Time is up!");
+    //         roomTimers.Remove(roomName);
+    //     }
 
-    }
+    // }
 
 
-    public async Task SendMessageToTeam(string roomName, string teamName, string content)
+    public async Task SendMessageToTeam(int id, string teamName, string content)
     {
         TeamManager.Teams.TryGetValue(teamName, out var team);
 
         foreach (User player in team.TeamPlayers.Values)
         {
             //Console.WriteLine("F" + player.Name);
-            await Clients.Client(player.ConnectionId).SendAsync("MoveAcknowledged", content);
+            await Clients.Client(player.ConnectionId).SendAsync("MoveAcknowledged", content,id);
         }
     }
 
@@ -98,6 +94,7 @@ public class GameHub : Hub
 
             obj.Scores.Add(team.CurrentScore);
             Console.WriteLine(team.CurrentScore);
+            
             //Console.WriteLine("F" + player.Name);
             //await Clients.Client(player.ConnectionId).SendAsync("MoveAcknowledged", content);
         }
@@ -106,6 +103,7 @@ public class GameHub : Hub
         {
             if (obj.Scores[i] > maxScore)
             {
+
                 ind = i;
                 maxScore = obj.Scores[i];
             }
@@ -171,15 +169,13 @@ public class GameHub : Hub
                 }
 
 
-                await SendMessageToTeam("", teamName, moveMessage);
+                await SendMessageToTeam(player.Id, teamName, moveMessage);
 
                 if (team.CurrentScore == 1)
                 {
                     moveMessage = teamName + " Won!!";
                     await SendMessageToRoom(teamName, moveMessage);
                     await GetGameResults(roomName);
-
-
                     //await Clients.Client(players.ConnectionId).SendAsync("UserJoined",content);
                 }
             }

@@ -1,0 +1,55 @@
+.scoreboard {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    min-width: 180px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+    .scoreboard h3 {
+        margin: 0;
+        font-size: 18px;
+        text-align: center;
+    }
+
+.team-score {
+    margin-top: 5px;
+    font-size: 14px;
+}
+.container {
+    position: "absolute";
+    top: "83px";
+    left: "40px";
+    background: "rgba(0, 0, 0, 0.7)";
+    color: "white";
+    padding: "10px 20px";
+    border-radius: "10px";
+    width: "400px";
+    height:"300px";
+
+}
+.title {
+    margin: "0";
+    padding-bottom: "5px";
+    text-align: "center";
+    font-size: "25px";
+    border-bottom: "2px solid white";
+}
+.list {
+    list-style: "none";
+    padding: "20px";
+    margin: "10px 0 0";
+    font-size: "25px";
+
+}
+.item {
+    font-size: "14px";
+    margin: "5px 0";
+    font-size: "25px";
+    text-align: "center";
+}

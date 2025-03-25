@@ -9,10 +9,10 @@ class TeamManager
     {
         if (!Teams.ContainsKey(teamName))
         {
-            Teams.TryAdd(teamName, new Team(1));
+            Teams.TryAdd(teamName, new Team(2));
         }
 
-        if (Teams[teamName].AvilabePlayers < 1)
+        if (Teams[teamName].AvilabePlayers < 2)
         {
             TotalPlayers++;
             User user = new User(userName, connectionId, teamName, Teams[teamName].AvilabePlayers , roomName);

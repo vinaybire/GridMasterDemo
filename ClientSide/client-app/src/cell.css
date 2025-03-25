@@ -1,0 +1,56 @@
+.cell {
+    width: 120px;
+    height: 75px;
+    perspective: 1000px;
+}
+
+.cell-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.cell.flipped .cell-inner {
+    transform: rotateY(180deg);
+}
+
+.cell-front,
+.cell-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell-front {
+    background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0OcAcliIOAgFfzUzQdTqi8rcVV9xKJebJTwdg1w2iSJVce379SHRZqTzg7_UlpAV4EA0&usqp=CAU") center/cover no-repeat;
+}
+
+.cell-back {
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("https://i.pinimg.com/736x/21/b6/f6/21b6f6ce8caadcdc0c243ebe8a0fccce.jpg") center/cover no-repeat;
+}
+    .cell-front img,
+    .cell-back img {
+        width: 90%; 
+        height: 90%;
+        object-fit: cover; 
+        border-radius: 8px; 
+    }
+
+/*.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: red;*/

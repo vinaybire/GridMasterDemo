@@ -5,7 +5,7 @@ builder.Services.AddCors(o =>
         .WithOrigins("null") // Origin of an html file opened in a browser
         .AllowAnyHeader()
         .AllowCredentials()
-        .WithOrigins("http://localhost:3002")); 
+        .WithOrigins("http://localhost:3004")); 
 });
 builder.Services.AddSignalR();
 
